@@ -35,7 +35,7 @@ This app follows the **MVVM (Model-View-ViewModel)** pattern:
 
 ```
 UI (Composables)
-      ↕  observes LiveData
+      ↕  collects StateFlow
   ViewModel
       ↕  calls functions
   Repository
@@ -49,8 +49,8 @@ Room Database (DAO → Entity)
 | **DAO** | SQL operations — insert, update, delete, getAll |
 | **Database** | Room database singleton |
 | **Repository** | Bridges DAO and ViewModel; single source of truth |
-| **ViewModel** | Exposes LiveData to UI; survives configuration changes |
-| **UI** | Observes LiveData and renders the task list |
+| **ViewModel** | Exposes StateFlow to UI; survives configuration changes |
+| **UI** | Collects StateFlow and renders the task list |
 
 ---
 
@@ -109,7 +109,7 @@ Open in Android Studio, let Gradle sync, and run.
 - How Room Database works — Entities, DAOs, and the Database singleton
 - Repository pattern as a single source of truth between DAO and ViewModel
 - ViewModel surviving configuration changes while keeping UI clean
-- LiveData for reactive UI updates without manual refresh
+- StateFlow for reactive UI updates without manual refresh
 - Running database operations off the main thread using Coroutines
 
 ---
