@@ -116,4 +116,4 @@ Open in Android Studio, let Gradle sync, and run.
 
 ## Author
 
-**Vanshika Tanwar** · [GitHub](https://github.com/Vanshika-Tanwar)
+[**Vanshika Tanwar**](https://github.com/Vanshika-Tanwar)
