@@ -3,8 +3,9 @@ package com.example.todoapp.repository
 import com.example.todoapp.data.room_database.TaskDao
 import com.example.todoapp.data.room_database.TaskItem
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class TaskRepository (private val dao : TaskDao){
+class TaskRepository @Inject constructor(private val dao : TaskDao){
 
     fun getAllTasks() : Flow<List<TaskItem>>{
         return dao.getAllTasks()

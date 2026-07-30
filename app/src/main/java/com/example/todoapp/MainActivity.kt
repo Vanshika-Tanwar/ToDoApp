@@ -12,22 +12,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.example.todoapp.ui.screens.ToDoListScreen
 import com.example.todoapp.ui.theme.ToDoAppTheme
 import com.example.todoapp.viewmodel.TaskViewModel
-import com.example.todoapp.viewmodel.TaskViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: TaskViewModel by viewModels {
-        TaskViewModelFactory(application)
-    }
+//    private val viewModel: TaskViewModel by viewModels {
+//        TaskViewModelFactory(application)
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             ToDoAppTheme {
+                val viewModel : TaskViewModel = hiltViewModel()
                 ToDoListScreen(viewModel)
             }
         }

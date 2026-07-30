@@ -2,19 +2,23 @@ package com.example.todoapp.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapp.data.room_database.TaskDatabase
 import com.example.todoapp.data.room_database.TaskItem
 import com.example.todoapp.repository.TaskRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class TaskViewModel(application: Application) : AndroidViewModel(application) {
-    private val dao = TaskDatabase.getDatabase(application).taskDao()
+@HiltViewModel
+class TaskViewModel @Inject constructor(private val repository: TaskRepository) : ViewModel() /*(application: Application) : AndroidViewModel(application)*/ {
+//    private val dao = TaskDatabase.getDatabase(application).taskDao()
 
-    private val repository = TaskRepository(dao)
+//    private val repository = TaskRepository(dao)
 
     val allTasks: StateFlow<List<TaskItem>> = repository.getAllTasks() //StateFlow for ui in latest sync hmesha
         .stateIn(
