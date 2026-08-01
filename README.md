@@ -1,12 +1,12 @@
 # ✅ ToDoApp
 
-A clean, offline-first To-Do List Android app built with **Room Database** and **MVVM Architecture** — following modern Android development practices.
+A clean, offline-first To-Do List Android app built with **Room Database**, **Hilt** and **MVVM Architecture** — following modern Android development practices.
 
 ---
 
 ## What is ToDoApp?
 
-ToDoApp is a minimal task manager that lets you add, edit, complete, and delete tasks — all stored locally on your device. No login, no cloud, no fluff. Built to understand how Room and MVVM work together in a real Android project.
+ToDoApp is a minimal task manager that lets you add, edit, complete, and delete tasks — all stored locally on your device. No login, no cloud, no fluff. Built to understand how Room, Hilt and MVVM work together in a real Android project.
 
 ---
 
@@ -31,26 +31,28 @@ ToDoApp is a minimal task manager that lets you add, edit, complete, and delete 
 
 ## Architecture
 
-This app follows the **MVVM (Model-View-ViewModel)** pattern:
+This app follows the **MVVM (Model-View-ViewModel)** pattern, wired together with Hilt instead of manual factories:
 
 ```
 UI (Composables)
       ↕  collects StateFlow
-  ViewModel
+  ViewModel (@HiltViewModel)
       ↕  calls functions
-  Repository
+  Repository (constructor-injected)
       ↕  queries
 Room Database (DAO → Entity)
+      ↑
+  Hilt AppModule provides Database + DAO as singletons
 ```
 
 | Layer | Responsibility |
 |---|---|
 | **Entity** | Defines the Task data model / table schema |
 | **DAO** | SQL operations — insert, update, delete, getAll |
-| **Database** | Room database singleton |
-| **Repository** | Bridges DAO and ViewModel; single source of truth |
-| **ViewModel** | Exposes StateFlow to UI; survives configuration changes |
-| **UI** | Collects StateFlow and renders the task list |
+| **Database** | 	Room database, provided as a Hilt singleton |
+| **Repository** | Bridges DAO and ViewModel, single source of truth, constructor-injected |
+| **ViewModel** | @HiltViewModel, exposes StateFlow to UI, survives configuration changes |
+| **UI** | Collects StateFlow and renders the task list, gets its ViewModel via hiltViewModel() |
 
 ---
 
@@ -62,6 +64,7 @@ Room Database (DAO → Entity)
 | UI | Jetpack Compose |
 | Architecture | MVVM |
 | Local DB | Room |
+| Dependency Injection | Hilt |
 | Async | Coroutines |
 
 ---
@@ -75,6 +78,8 @@ com.example.todoapp/
 │       ├── TaskDao.kt
 │       ├── TaskDatabase.kt
 │       └── TaskItem.kt
+├── di/
+│   └── AppModule.kt
 ├── repository/
 │   └── TaskRepository.kt
 ├── ui/
@@ -87,8 +92,8 @@ com.example.todoapp/
 │       ├── Theme.kt
 │       └── Type.kt
 ├── viewmodel/
-│   ├── TaskViewModel.kt
-│   └── TaskViewModelFactory.kt
+│   └── TaskViewModel.kt
+├── ToDoApplication.kt
 └── MainActivity.kt
 ```
 
@@ -111,6 +116,7 @@ Open in Android Studio, let Gradle sync, and run.
 - ViewModel surviving configuration changes while keeping UI clean
 - StateFlow for reactive UI updates without manual refresh
 - Running database operations off the main thread using Coroutines
+- Dependency injection with Hilt - replacing a manual ViewModelFactory with @HiltAndroidApp, @AndroidEntryPoint, @HiltViewModel, and constructor injection across the Repository and DAO layers
 
 ---
 
